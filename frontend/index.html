@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html ng-app="infamousCriminalsApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Infamous Criminals</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+  <script src="js/app.js" charset="utf-8"></script></head>
+  <script src="js/criminalController.js" charset="utf-8"></script>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+  <h1>Infamous Criminal</h1>
+  <section ng-controller="CriminalController">
+    <table ng-if="all.length > 0">
+      <tr ng-repeat="criminal in all">
+        <td><span ng-class="{ status: true,  'status-dead': criminal.status == 'DEAD', 'status-unknown': criminal.status == 'UNKNOWN' }">
+        {{ criminal.status}}</span></td>
+        <td class="criminalName">{{ criminal.name }}</td>
+        <td class="location">{{ criminal.location }}</td>
+        <td><a class="delete" ng-click="deleteCriminal(criminal._id)">X</a></td>
+      </tr>
+    </table>
+
+    <div class="new_criminal">
+      <div class="error" ng-if="error.length != 0">{{error}}</div>
+      <form ng-submit="addNewCriminal(newCriminalForm.$valid)" name="newCriminalForm" novalidate>
+        <div class="form-group">
+          <label for="newName" class="col-sm-4 control-label">Name:</label>
+          <div class="col-sm-8">
+            <input type="text" id="newName" class="form-control" placeholder={{fields.name}} ng-model="newCriminal.name" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="newLocation" class="col-sm-4">Location:</label>
+          <div class="col-sm-8">
+            <input type="text" id="newLocation" class="form-control" placeholder={{fields.location}} ng-model="newCriminal.location" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="newStatus" class="col-sm-4">Status:</label>
+          <select ng-model="newCriminal.status" id="newStatus" class="form-control" required>
+            <option ng-repeat="option in fields.status" value={{option}}>{{ option }}</option>
+          </select>
+        </div>
+        <input type="submit" class="btn btn-default form-control">
+      </form>
+    </div>
+  </section>
+</body>
+</html>
